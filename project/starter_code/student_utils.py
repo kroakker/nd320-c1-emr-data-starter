@@ -12,7 +12,17 @@ def reduce_dimension_ndc(df, ndc_df):
     return:
         df: pandas dataframe, output dataframe with joined generic drug name
     '''
-    return df
+    
+    df: pandas dataframe, input dataset
+    ndc_df: pandas dataframe, drug code dataset used for mapping in generic names
+    return:
+        df: pandas dataframe, output dataframe with joined generic drug name
+    '''
+    df1 = pd.merge(df, ndc_df[['Proprietary Name', 'NDC_Code']], left_on='ndc_code', right_on='NDC_Code')
+    df1['generic_drug_name'] = df1['Proprietary Name']
+    df1 = df1.drop(['NDC_Code', 'Proprietary Name'], axis=1)
+    
+    return df1
 
 #Question 4
 def select_first_encounter(df):
